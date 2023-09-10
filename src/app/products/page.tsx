@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/atoms/Card";
+import { ProductList } from "@/ui/organisms/ProductList";
 
 const products = [
 	{
@@ -43,21 +42,7 @@ const products = [
 export default function Page() {
 	return (
 		<div className="bg-slate h-screen w-screen bg-white p-6 text-white">
-			<ul data-testid="products-list" className="grid grid-cols-4 gap-3 py-4">
-				{products.map(({ id, name, price, image }) => (
-					<li key={id}>
-						<Card>
-							<CardHeader>
-								<Image src={image.url} alt={image.alt} width={200} height={200} />
-							</CardHeader>
-							<CardContent>
-								<CardTitle>{name}</CardTitle>
-								<CardDescription>{price}</CardDescription>
-							</CardContent>
-						</Card>
-					</li>
-				))}
-			</ul>
+			<ProductList products={products} />
 		</div>
 	);
 }
