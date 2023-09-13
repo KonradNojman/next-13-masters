@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProductItem, type ProductType } from "@/ui/molecules/ProductItem";
 
 export type ProductListProps = {
@@ -9,7 +10,9 @@ export const ProductList = ({ products }: ProductListProps) => {
 		<ul data-testid="products-list" className="grid grid-cols-4 gap-3 py-4">
 			{products.map((product) => (
 				<li key={product.id}>
-					<ProductItem product={product} />
+					<Link href={`/products/${product.id}`}>
+						<ProductItem product={product} />
+					</Link>
 				</li>
 			))}
 		</ul>

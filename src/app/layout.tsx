@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +13,24 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<nav>
+					<ul className=" mx-4 my-3 flex w-full flex-row justify-center gap-4">
+						<li>
+							<ActiveLink href="/">Homepage</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink href="/products">Products</ActiveLink>
+						</li>
+					</ul>
+				</nav>
+				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
+					{children}
+				</section>
+				<footer className="mx-auto text-center">
+					<p>Next13Masters Shop - 2023 - All rights reserved</p>
+				</footer>
+			</body>
 		</html>
 	);
 }
