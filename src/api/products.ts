@@ -21,6 +21,7 @@ const productResponseItemToProductType = (product: ProductResponseItem): Product
 		id: product.id,
 		name: product.title,
 		price: product.price.toString(),
+		description: product.description,
 		image: {
 			url: product.image,
 			alt: product.title,

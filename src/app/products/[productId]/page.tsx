@@ -1,7 +1,36 @@
 import { Suspense } from "react";
-import { getProductById } from "@/api/products";
+import { type Metadata } from "next";
+import { getProductById, getProductList } from "@/api/products";
 import { ProductItem } from "@/ui/molecules/ProductItem";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
+
+export const generateStaticParams = async () => {
+	const products = await getProductList();
+	return products.map((product) => ({
+		productId: product.id,
+	}));
+};
+
+// export const metadata: Metadata = {
+// 	title: "Product",
+// };
+
+export const generateMetadata = async ({
+	params,
+}: {
+	params: { productId: string };
+}): Promise<Metadata> => {
+	const product = await getProductById(params.productId);
+	return {
+		title: `${product.name} - Shop`,
+		description: product.description,
+		openGraph: {
+			title: `${product.name} - Shop`,
+			description: product.description,
+			images: [{ url: product.image.url, alt: product.image.alt }],
+		},
+	};
+};
 
 export default async function SingleProductPage({
 	params, // searchParams,
