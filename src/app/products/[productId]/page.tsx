@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { getProductById } from "@/api/products";
 import { ProductItem } from "@/ui/molecules/ProductItem";
+import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
 
 export default async function SingleProductPage({
 	params, // searchParams,
@@ -13,6 +15,12 @@ export default async function SingleProductPage({
 	return (
 		<div>
 			<ProductItem product={product} />
+
+			<aside>
+				<Suspense>
+					<SuggestedProducts />
+				</Suspense>
+			</aside>
 		</div>
 	);
 }
