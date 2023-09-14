@@ -30,7 +30,7 @@ const productResponseItemToProductType = (product: ProductResponseItem): Product
 };
 
 export const getProductList = async () => {
-	const res = await fetch("https://naszsklep-api.vercel.app/api/products");
+	const res = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
 	const productsResponse = (await res.json()) as ProductResponseItem[];
 	const products = productsResponse.map(productResponseItemToProductType);
 
