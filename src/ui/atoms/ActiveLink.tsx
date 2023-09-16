@@ -30,7 +30,7 @@ export const ActiveLink = <T extends string>({
 			className={clsx(className, {
 				[activeClassName]: isActive,
 			})}
-			href={href}
+			href={href as Route}
 		>
 			{children}
 		</Link>
