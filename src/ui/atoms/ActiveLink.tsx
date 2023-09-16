@@ -6,28 +6,28 @@ import { usePathname } from "next/navigation";
 import { type ReactNode } from "react";
 import { containsSections } from "@/lib/utils";
 
-export const ActiveLink = ({
+export const ActiveLink = <T extends string>({
 	href,
 	children,
-	className = "",
-	activeClassName = "underline",
+	className = "text-blue-400 hover:text-blue-600",
+	activeClassName = "border-b border-solid border-blue-400",
 	exact = true,
 }: {
-	href: Route;
+	href: Route<T> | URL;
 	children: ReactNode;
 	exact?: boolean;
 	className?: string;
 	activeClassName?: string;
 }) => {
 	const pathName = usePathname();
-	const hrefSections = href.split("/").filter(Boolean);
+	const hrefSections = href.toString().split("/").filter(Boolean);
 	const pathNameSections = pathName.split("/").filter(Boolean);
 
 	const isActive = exact ? pathName === href : containsSections(hrefSections, pathNameSections);
 
 	return (
 		<Link
-			className={clsx(`text-blue-400 hover:text-blue-600 ${className}`, {
+			className={clsx(className, {
 				[activeClassName]: isActive,
 			})}
 			href={href}

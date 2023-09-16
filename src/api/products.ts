@@ -37,6 +37,16 @@ export const getProductList = async () => {
 	return products;
 };
 
+export const getPaginatedProductList = async (take: number = 20, offset: number = 0) => {
+	const res = await fetch(
+		`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`,
+	);
+	const productsResponse = (await res.json()) as ProductResponseItem[];
+	const products = productsResponse.map(productResponseItemToProductType);
+
+	return products;
+};
+
 export const getProductById = async (id: ProductResponseItem["id"]): Promise<ProductType> => {
 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
 	const productsResponse = (await res.json()) as ProductResponseItem;

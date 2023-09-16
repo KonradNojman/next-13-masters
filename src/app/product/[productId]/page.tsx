@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
+import Image from "next/image";
 import { getProductById, getProductList } from "@/api/products";
-import { ProductItem } from "@/ui/molecules/ProductItem";
+// import { ProductItem } from "@/ui/molecules/ProductItem";
 import { SuggestedProducts } from "@/ui/organisms/SuggestedProducts";
 
 export const generateStaticParams = async () => {
@@ -39,11 +40,22 @@ export default async function SingleProductPage({
 	searchParams: { [key: string]: string | string[] };
 }) {
 	const product = await getProductById(params.productId);
+	const { name, description, price, image } = product;
 
 	// const referral = searchParams.referral?.toString();
 	return (
 		<div>
-			<ProductItem product={product} />
+			{/* <ProductItem product={product} /> */}
+			<div>
+				<div className="flex h-52 w-52 items-center justify-center overflow-hidden">
+					<Image src={image.url} alt={image.alt} width={200} height={200} />
+				</div>
+				<div>
+					<h1>{name}</h1>
+					<p>{price}</p>
+					<p>{description}</p>
+				</div>
+			</div>
 
 			<aside>
 				<Suspense>
