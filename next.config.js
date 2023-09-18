@@ -9,7 +9,17 @@ const nextConfig = {
 			},
 			{
 				source: "/product",
-				destination: "/products/1",
+				destination: "/products",
+				permanent: true,
+			},
+			{
+				source: "/products/categories",
+				destination: "/products",
+				permanent: true,
+			},
+			{
+				source: "/products/categories/:category",
+				destination: "/products/categories/:category/1",
 				permanent: true,
 			},
 		];
@@ -25,6 +35,12 @@ const nextConfig = {
 			{
 				protocol: "https",
 				hostname: "naszsklep-api.vercel.app",
+				port: "",
+				pathname: "**",
+			},
+			{
+				protocol: "https",
+				hostname: "media.graphassets.com",
 				port: "",
 				pathname: "**",
 			},

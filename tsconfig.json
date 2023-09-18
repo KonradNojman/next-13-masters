@@ -16,6 +16,8 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"allowUnreachableCode": true,
+		"noUncheckedIndexedAccess": true,
+		"noErrorTruncation": true,
 		"plugins": [
 			{
 				"name": "next"
@@ -23,9 +25,10 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@/ui/*": ["./src/ui/*"]
+			"@/ui/*": ["./src/ui/*"],
+			"@/gql/*": ["./src/gql/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".graphqlrc.ts"],
 	"exclude": ["node_modules"]
 }

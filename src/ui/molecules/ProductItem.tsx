@@ -6,7 +6,8 @@ export type ProductType = {
 	name: string;
 	price: string;
 	description: string;
-	image: {
+	category?: string;
+	image?: {
 		url: string;
 		alt: string;
 	};
@@ -21,7 +22,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 	return (
 		<Card>
 			<CardHeader className="flex h-52 w-52 items-center justify-center overflow-hidden">
-				<Image src={image.url} alt={image.alt} width={200} height={200} />
+				{image && <Image src={image.url} alt={image.alt} width={200} height={200} />}
 			</CardHeader>
 			<CardContent>
 				<CardTitle>{name}</CardTitle>
