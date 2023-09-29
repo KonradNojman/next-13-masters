@@ -1,0 +1,12 @@
+query ProductsGetListPaginated($page: Int!, $pageSize: Int!) {
+	products(pagination: { page: $page, pageSize: $pageSize }) {
+		data {
+			...ProductListItem
+		}
+		meta {
+			pagination {
+				pageCount
+			}
+		}
+	}
+}

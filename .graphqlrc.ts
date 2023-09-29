@@ -8,10 +8,12 @@ const config: CodegenConfig = {
 	overwrite: true,
 	ignoreNoDocuments: true,
 	documents: "src/graphql/*.graphql",
+	// documents: ["src/graphql/*.graphql", "src/{app,ui,api,lib}/**/*.{ts,tsx}"],
 	generates: {
 		"src/gql/": {
 			preset: "client",
 			presetConfig: {
+				// fragmentMasking: { unmaskFunctionName: "getFragmentData" },
 				fragmentMasking: false,
 			},
 			config: {

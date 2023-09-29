@@ -1,10 +1,19 @@
-import { Camera } from "lucide-react";
+import { getProductList } from "@/api/products";
+import { ProductList } from "@/ui/organisms/ProductList";
+// import { Camera } from "lucide-react";
 
-export default function HomePage() {
+export default async function HomePage() {
+	const products = await getProductList();
+
 	return (
 		<div>
-			<Camera className="text-blue-600" size={48} />
-			Index Page
+			<ProductList products={products} />
 		</div>
 	);
+	// return (
+	// 	<div>
+	// 		<Camera className="text-blue-600" size={48} />
+	// 		Index Page
+	// 	</div>
+	// );
 }

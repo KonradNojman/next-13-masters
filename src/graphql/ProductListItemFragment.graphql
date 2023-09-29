@@ -1,12 +1,19 @@
-fragment ProductListItem on Product {
+fragment ProductListItem on ProductEntity {
 	id
-	name
-	description
-	categories(first: 1) {
+	attributes {
 		name
+		price
+		description
+		images {
+			data {
+				id
+				attributes {
+					url
+					alternativeText
+					width
+					height
+				}
+			}
+		}
 	}
-	images(first: 1) {
-		url
-	}
-	price
 }

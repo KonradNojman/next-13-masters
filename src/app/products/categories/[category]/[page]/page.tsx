@@ -1,8 +1,8 @@
 // import { getPaginatedProductList } from "@/api/products";
-import { ProductList } from "@/ui/organisms/ProductList";
+// import { ProductList } from "@/ui/organisms/ProductList";
 // import { Pagination } from "@/ui/organisms/Pagination";
 
-import { getProductListByCategorySlug } from "@/api/products";
+// import { getProductListByCategorySlug } from "@/api/products";
 
 export default async function ProductsCategoryPage({
 	params,
@@ -16,12 +16,12 @@ export default async function ProductsCategoryPage({
 
 	// const currentOffset = (parseInt(params.page) - 1) * DEFAULT_PAGINATION;
 
-	const products = await getProductListByCategorySlug(params.category);
+	// const products = await getProductListByCategorySlug(params.category);
 
 	return (
 		<div>
 			test {params.category} {params.page}
-			<ProductList products={products} />
+			{/* <ProductList products={products} /> */}
 			{/*<div className="mt-6 flex justify-center gap-2">
 				<Pagination
 					currentPage={currentPage}

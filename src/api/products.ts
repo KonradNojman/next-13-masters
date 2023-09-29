@@ -1,9 +1,12 @@
-import { notFound } from "next/navigation";
+// import { notFound } from "next/navigation";
 import { executeGraphql } from "./graphqlApi";
+import { mapEntity } from "./utils";
 import {
-	ProductGetByCategorySlugDocument,
+	type ProductEntity,
 	ProductsGetListDocument,
-	type ProductsGetListQuery,
+	type Product,
+	ProductsGetListPaginatedDocument,
+	ProductGetByIdDocument,
 } from "@/gql/graphql";
 import { type ProductType } from "@/ui/molecules/ProductItem";
 
@@ -23,19 +26,22 @@ export interface Rating {
 	count: number;
 }
 
-const productResponseItemToProductType = (
-	product: ProductsGetListQuery["products"][0],
-): ProductType => {
+const productResponseItemToProductType = (product: {
+	id: string;
+	attributes: Product;
+}): ProductType => {
+	const image = product.attributes.images?.data[0]?.attributes?.url;
 	return {
 		id: product.id,
-		name: product.name,
-		price: product.price.toString(),
-		description: product.description,
-		category: product.categories[0]?.name || "",
-		image: product.images[0] && {
-			url: product.images[0]?.url || "",
-			alt: product.name,
-		},
+		name: product.attributes.name,
+		price: product.attributes.price.toString(),
+		description: product.attributes.description || "",
+		image: image
+			? {
+					url: product.attributes.images?.data[0]?.attributes?.url || "",
+					alt: product.attributes.images?.data[0]?.attributes?.alternativeText || "",
+			  }
+			: undefined,
 	};
 };
 
@@ -56,14 +62,41 @@ export const getProductList = async () => {
 	// const res = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
 	// const productsResponse = (await res.json()) as ProductResponseItem[];
 	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
-	const products = graphqlResponse.products.map(productResponseItemToProductType);
+	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
+		mapEntity<Product>(product as ProductEntity),
+	);
 
-	return products;
+	if (!mappedGqlResponse) return [];
+
+	// const products = mappedGqlResponse?.map((product) => {
+	// 	return {
+	// 		id: product.id,
+	// 		name: product.attributes.name,
+	// 		price: product.attributes.price,
+	// 		description: product.attributes.description,
+	// 		image: {
+	// 			url: product.attributes.images?.data[0]?.attributes?.url,
+	// 			alt: product.attributes.images?.data[0]?.attributes?.alternativeText,
+	// 		},
+	// 	};
+	// });
+
+	return mappedGqlResponse.map(productResponseItemToProductType);
 };
 
 // export const getPaginatedProductList = async (take: number = 20, offset: number = 0) => {
-export const getPaginatedProductList = async () => {
-	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
+export const getPaginatedProductList = async (take: number = 20, offset: number = 0) => {
+	const graphqlResponse = await executeGraphql(ProductsGetListPaginatedDocument, {
+		page: offset,
+		pageSize: take,
+	});
+	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
+		mapEntity<Product>(product as ProductEntity),
+	);
+
+	const pagination = graphqlResponse.products?.meta.pagination;
+
+	if (!mappedGqlResponse) return { products: [], pagination: pagination ? pagination : undefined };
 
 	// const response = await fetch("", {
 	// 	method: "POST",
@@ -89,29 +122,37 @@ export const getPaginatedProductList = async () => {
 	// );
 	// const productsResponse = (await res.json()) as ProductResponseItem[];
 	// const products = productsResponse.map(productResponseItemToProductType);
-	const products = graphqlResponse.products.map(productResponseItemToProductType);
-
-	return products;
+	return {
+		products: mappedGqlResponse.map(productResponseItemToProductType),
+		pagination: pagination ? pagination : undefined,
+	};
 };
 
-export const getProductListByCategorySlug = async (categorySlug: string) => {
-	const graphqlResponse = await executeGraphql(ProductGetByCategorySlugDocument, {
-		slug: categorySlug,
-	});
+// export const getProductListByCategorySlug = async (categorySlug: string) => {
+// 	const graphqlResponse = await executeGraphql(ProductGetByCategorySlugDocument, {
+// 		slug: categorySlug,
+// 	});
 
-	const products = graphqlResponse.categories[0]?.products;
-	// const products = graphqlResponse.products.map(productResponseItemToProductType);
+// 	const products = graphqlResponse.categories[0]?.products;
+// 	// const products = graphqlResponse.products.map(productResponseItemToProductType);
 
-	if (!products) {
-		throw notFound();
-	}
+// 	if (!products) {
+// 		throw notFound();
+// 	}
 
-	return products.map(productResponseItemToProductType);
-};
+// 	return products.map(productResponseItemToProductType);
+// };
 
-export const getProductById = async (id: ProductResponseItem["id"]): Promise<ProductType> => {
-	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-	const productsResponse = (await res.json()) as ProductResponseItem;
+export const getProductById = async (id: string): Promise<ProductType | null> => {
+	const graphqlResponse = await executeGraphql(ProductGetByIdDocument, { id });
+	if (!graphqlResponse.product?.data) return null;
 
-	return oldProductResponseItemToProductType(productsResponse);
+	const mappedGqlResponse = mapEntity<Product>(graphqlResponse.product.data as ProductEntity);
+
+	return productResponseItemToProductType(mappedGqlResponse);
+
+	// const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
+	// const productsResponse = (await res.json()) as ProductResponseItem;
+
+	// return oldProductResponseItemToProductType(productsResponse);
 };

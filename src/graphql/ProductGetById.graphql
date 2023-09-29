@@ -1,0 +1,27 @@
+query ProductGetById($id: ID!) {
+	product(id: $id) {
+		data {
+			id
+			attributes {
+				name
+				price
+				description
+				category {
+					data {
+						attributes {
+							name
+						}
+					}
+				}
+				images {
+					data {
+						attributes {
+							url
+							alternativeText
+						}
+					}
+				}
+			}
+		}
+	}
+}
