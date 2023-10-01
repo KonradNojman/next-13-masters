@@ -13,13 +13,13 @@ const nextConfig = {
 				permanent: true,
 			},
 			{
-				source: "/products/categories",
-				destination: "/products",
+				source: "/categories",
+				destination: "/categories/t-shirts",
 				permanent: true,
 			},
 			{
-				source: "/products/categories/:category",
-				destination: "/products/categories/:category/1",
+				source: "/categories/:category",
+				destination: "/categories/:category/1",
 				permanent: true,
 			},
 		];

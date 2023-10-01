@@ -7,6 +7,7 @@ import {
 	type Product,
 	ProductsGetListPaginatedDocument,
 	ProductGetByIdDocument,
+	ProductsGetListByCategoryPaginatedDocument,
 } from "@/gql/graphql";
 import { type ProductType } from "@/ui/molecules/ProductItem";
 
@@ -91,6 +92,55 @@ export const getPaginatedProductList = async (take: number = 20, offset: number 
 		page: offset,
 		pageSize: take,
 	});
+	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
+		mapEntity<Product>(product as ProductEntity),
+	);
+
+	const pagination = graphqlResponse.products?.meta.pagination;
+
+	if (!mappedGqlResponse) return { products: [], pagination: pagination ? pagination : undefined };
+
+	// const response = await fetch("", {
+	// 	method: "POST",
+	// 	body: JSON.stringify(/* GraphQL */ `
+	// 	query GetProductsList {
+	// 		products(first: 10) {
+	// 			id
+	// 			name
+	// 			description
+	// 			images {
+	// 				url
+	// 			}
+	// 			price
+	// 		}
+	// 	`),
+	// 	headers: { "Content-Type": "application/json" },
+	// });
+
+	// const gqlRes =  graphqlResponse;
+
+	// const res = await fetch(
+	// 	`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`,
+	// );
+	// const productsResponse = (await res.json()) as ProductResponseItem[];
+	// const products = productsResponse.map(productResponseItemToProductType);
+	return {
+		products: mappedGqlResponse.map(productResponseItemToProductType),
+		pagination: pagination ? pagination : undefined,
+	};
+};
+
+export const getPaginatedProductListByCategory = async (
+	category: string,
+	take: number = 20,
+	offset: number = 0,
+) => {
+	const graphqlResponse = await executeGraphql(ProductsGetListByCategoryPaginatedDocument, {
+		categoryName: category,
+		page: offset,
+		pageSize: take,
+	});
+
 	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
 		mapEntity<Product>(product as ProductEntity),
 	);

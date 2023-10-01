@@ -24,6 +24,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								All
 							</ActiveLink>
 						</li>
+						<li>
+							<ActiveLink href="/categories/shoes" exact={false}>
+								Shoes
+							</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink href="/categories/blouses" exact={false}>
+								Blouses
+							</ActiveLink>
+						</li>
+						<li>
+							<ActiveLink href="/categories/t-shirts" exact={false}>
+								T-shirts
+							</ActiveLink>
+						</li>
 					</ul>
 				</nav>
 				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">

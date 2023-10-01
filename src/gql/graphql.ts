@@ -1387,6 +1387,15 @@ export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ProductsGetListQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null }> } | null };
 
+export type ProductsGetListByCategoryPaginatedQueryVariables = Exact<{
+  categoryName: Scalars['String']['input'];
+  page: Scalars['Int']['input'];
+  pageSize: Scalars['Int']['input'];
+}>;
+
+
+export type ProductsGetListByCategoryPaginatedQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null }>, meta: { pagination: { pageCount: number } } } | null };
+
 export type ProductsGetListPaginatedQueryVariables = Exact<{
   page: Scalars['Int']['input'];
   pageSize: Scalars['Int']['input'];
@@ -1487,6 +1496,41 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const ProductsGetListByCategoryPaginatedDocument = new TypedDocumentString(`
+    query ProductsGetListByCategoryPaginated($categoryName: String!, $page: Int!, $pageSize: Int!) {
+  products(
+    pagination: {page: $page, pageSize: $pageSize}
+    filters: {category: {name: {containsi: $categoryName}}}
+  ) {
+    data {
+      ...ProductListItem
+    }
+    meta {
+      pagination {
+        pageCount
+      }
+    }
+  }
+}
+    fragment ProductListItem on ProductEntity {
+  id
+  attributes {
+    name
+    price
+    description
+    images {
+      data {
+        id
+        attributes {
+          url
+          alternativeText
+          width
+          height
+        }
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductsGetListByCategoryPaginatedQuery, ProductsGetListByCategoryPaginatedQueryVariables>;
 export const ProductsGetListPaginatedDocument = new TypedDocumentString(`
     query ProductsGetListPaginated($page: Int!, $pageSize: Int!) {
   products(pagination: {page: $page, pageSize: $pageSize}) {
