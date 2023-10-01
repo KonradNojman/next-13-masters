@@ -27,10 +27,10 @@ export const generateMetadata = async ({
 
 	return {
 		title: `${product.name} - Shop`,
-		description: product.description || "SEO description",
+		description: product.seoDescription,
 		openGraph: {
 			title: `${product.name} - Shop`,
-			description: product.description || "SEO description",
+			description: product.seoDescription,
 			images: [{ url: product.image?.url || "", alt: product.image?.alt || "" }],
 		},
 	};

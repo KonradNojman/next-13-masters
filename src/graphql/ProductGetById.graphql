@@ -6,6 +6,7 @@ query ProductGetById($id: ID!) {
 				name
 				price
 				description
+				seo_description
 				category {
 					data {
 						attributes {

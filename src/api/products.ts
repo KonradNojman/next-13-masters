@@ -36,6 +36,7 @@ const productResponseItemToProductType = (product: {
 		name: product.attributes.name,
 		price: product.attributes.price.toString(),
 		description: product.attributes.description || "",
+		seoDescription: product.attributes.seo_description || "",
 		image: image
 			? {
 					url: product.attributes.images?.data[0]?.attributes?.url || "",

@@ -6,6 +6,7 @@ export type ProductType = {
 	name: string;
 	price: string;
 	description: string;
+	seoDescription?: string;
 	category?: string;
 	image?: {
 		url: string;

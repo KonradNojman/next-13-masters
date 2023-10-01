@@ -574,6 +574,7 @@ export type Product = {
   price: Scalars['Int']['output'];
   product_variants?: Maybe<ProductVariantRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  seo_description?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -710,6 +711,7 @@ export type ProductFiltersInput = {
   price?: InputMaybe<IntFilterInput>;
   product_variants?: InputMaybe<ProductVariantFiltersInput>;
   publishedAt?: InputMaybe<DateTimeFilterInput>;
+  seo_description?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -721,6 +723,7 @@ export type ProductInput = {
   price?: InputMaybe<Scalars['Int']['input']>;
   product_variants?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  seo_description?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductRelationResponseCollection = {
@@ -1375,7 +1378,7 @@ export type ProductGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price: number, description?: string | null, category?: { data?: { attributes?: { name: string } | null } | null } | null, images?: { data: Array<{ attributes?: { url: string, alternativeText?: string | null } | null }> } | null } | null } | null } | null };
+export type ProductGetByIdQuery = { product?: { data?: { id?: string | null, attributes?: { name: string, price: number, description?: string | null, seo_description?: string | null, category?: { data?: { attributes?: { name: string } | null } | null } | null, images?: { data: Array<{ attributes?: { url: string, alternativeText?: string | null } | null }> } | null } | null } | null } | null };
 
 export type ProductListItemFragment = { id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null };
 
@@ -1436,6 +1439,7 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
         name
         price
         description
+        seo_description
         category {
           data {
             attributes {
