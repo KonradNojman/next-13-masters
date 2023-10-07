@@ -1,0 +1,13 @@
+query CollectionGetProductListByCollectionId($collectionId: ID!) {
+	collection(id: $collectionId) {
+		data {
+			attributes {
+				products {
+					data {
+						...ProductListItem
+					}
+				}
+			}
+		}
+	}
+}
