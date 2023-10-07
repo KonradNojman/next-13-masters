@@ -1,0 +1,8 @@
+query ProductSearch($query: String!) {
+	products(filters: { name: { containsi: $query } }) {
+		data {
+			id
+			...ProductListItem
+		}
+	}
+}

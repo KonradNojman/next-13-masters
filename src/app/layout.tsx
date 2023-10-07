@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 import { getCategoryList } from "@/api/categories";
+import { SearchInput } from "@/ui/organisms/SearchInput";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"] });
 
@@ -17,7 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<nav>
+				<nav className="m-4 grid grid-cols-[1fr_300px]">
 					<ul className=" mx-4 my-3 flex w-full flex-row justify-center gap-4">
 						<li>
 							<ActiveLink href="/">Home</ActiveLink>
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 							</li>
 						))}
 					</ul>
+					<SearchInput />
 				</nav>
 				<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
 					{children}

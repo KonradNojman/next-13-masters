@@ -19,6 +19,7 @@ const documents = {
     "query CollectionGetProductListByCollectionId($collectionId: ID!) {\n  collection(id: $collectionId) {\n    data {\n      attributes {\n        name\n        products {\n          data {\n            ...ProductListItem\n          }\n        }\n      }\n    }\n  }\n}": types.CollectionGetProductListByCollectionIdDocument,
     "query ProductGetById($id: ID!) {\n  product(id: $id) {\n    data {\n      id\n      attributes {\n        name\n        price\n        description\n        seo_description\n        category {\n          data {\n            attributes {\n              name\n            }\n          }\n        }\n        images {\n          data {\n            attributes {\n              url\n              alternativeText\n            }\n          }\n        }\n      }\n    }\n  }\n}": types.ProductGetByIdDocument,
     "fragment ProductListItem on ProductEntity {\n  id\n  attributes {\n    name\n    price\n    description\n    images {\n      data {\n        id\n        attributes {\n          url\n          alternativeText\n          width\n          height\n        }\n      }\n    }\n  }\n}": types.ProductListItemFragmentDoc,
+    "query ProductSearch($query: String!) {\n  products(filters: {name: {containsi: $query}}) {\n    data {\n      id\n      ...ProductListItem\n    }\n  }\n}": types.ProductSearchDocument,
     "query ProductsGetList {\n  products {\n    data {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetListDocument,
     "query ProductsGetListByCategoryPaginated($categoryName: String!, $page: Int!, $pageSize: Int!) {\n  products(\n    pagination: {page: $page, pageSize: $pageSize}\n    filters: {category: {name: {containsi: $categoryName}}}\n  ) {\n    data {\n      ...ProductListItem\n    }\n    meta {\n      pagination {\n        pageCount\n      }\n    }\n  }\n}": types.ProductsGetListByCategoryPaginatedDocument,
     "query ProductsGetListPaginated($page: Int!, $pageSize: Int!) {\n  products(pagination: {page: $page, pageSize: $pageSize}) {\n    data {\n      ...ProductListItem\n    }\n    meta {\n      pagination {\n        pageCount\n      }\n    }\n  }\n}": types.ProductsGetListPaginatedDocument,
@@ -44,6 +45,10 @@ export function graphql(source: "query ProductGetById($id: ID!) {\n  product(id:
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "fragment ProductListItem on ProductEntity {\n  id\n  attributes {\n    name\n    price\n    description\n    images {\n      data {\n        id\n        attributes {\n          url\n          alternativeText\n          width\n          height\n        }\n      }\n    }\n  }\n}"): typeof import('./graphql').ProductListItemFragmentDoc;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query ProductSearch($query: String!) {\n  products(filters: {name: {containsi: $query}}) {\n    data {\n      id\n      ...ProductListItem\n    }\n  }\n}"): typeof import('./graphql').ProductSearchDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

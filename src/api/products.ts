@@ -8,6 +8,7 @@ import {
 	ProductsGetListPaginatedDocument,
 	ProductGetByIdDocument,
 	ProductsGetListByCategoryPaginatedDocument,
+	ProductSearchDocument,
 } from "@/gql/graphql";
 import { type ProductType } from "@/ui/molecules/ProductItem";
 
@@ -109,4 +110,15 @@ export const getProductById = async (id: string): Promise<ProductType | null> =>
 	const mappedGqlResponse = mapEntity<Product>(graphqlResponse.product.data as ProductEntity);
 
 	return productResponseItemToProductType(mappedGqlResponse);
+};
+
+export const getProductSearch = async (query: string) => {
+	const graphqlResponse = await executeGraphql(ProductSearchDocument, { query });
+	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
+		mapEntity<Product>(product as ProductEntity),
+	);
+
+	if (!mappedGqlResponse) return [];
+
+	return mappedGqlResponse.map(productResponseItemToProductType);
 };

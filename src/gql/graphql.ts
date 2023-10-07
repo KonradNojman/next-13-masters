@@ -1503,6 +1503,13 @@ export type ProductGetByIdQuery = { product?: { data?: { id?: string | null, att
 
 export type ProductListItemFragment = { id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null };
 
+export type ProductSearchQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
+
+
+export type ProductSearchQuery = { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null }> } | null };
+
 export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1657,6 +1664,34 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
+export const ProductSearchDocument = new TypedDocumentString(`
+    query ProductSearch($query: String!) {
+  products(filters: {name: {containsi: $query}}) {
+    data {
+      id
+      ...ProductListItem
+    }
+  }
+}
+    fragment ProductListItem on ProductEntity {
+  id
+  attributes {
+    name
+    price
+    description
+    images {
+      data {
+        id
+        attributes {
+          url
+          alternativeText
+          width
+          height
+        }
+      }
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductSearchQuery, ProductSearchQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList {
   products {
