@@ -1492,7 +1492,7 @@ export type CollectionGetProductListByCollectionIdQueryVariables = Exact<{
 }>;
 
 
-export type CollectionGetProductListByCollectionIdQuery = { collection?: { data?: { attributes?: { products?: { data: Array<{ id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null }> } | null } | null } | null } | null };
+export type CollectionGetProductListByCollectionIdQuery = { collection?: { data?: { attributes?: { name: string, products?: { data: Array<{ id?: string | null, attributes?: { name: string, price: number, description?: string | null, images?: { data: Array<{ id?: string | null, attributes?: { url: string, alternativeText?: string | null, width?: number | null, height?: number | null } | null }> } | null } | null }> } | null } | null } | null } | null };
 
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -1598,6 +1598,7 @@ export const CollectionGetProductListByCollectionIdDocument = new TypedDocumentS
   collection(id: $collectionId) {
     data {
       attributes {
+        name
         products {
           data {
             ...ProductListItem

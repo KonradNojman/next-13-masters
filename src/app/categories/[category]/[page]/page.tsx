@@ -3,11 +3,11 @@ import { getPaginatedProductListByCategory } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { Pagination } from "@/ui/organisms/Pagination";
 
-const capitalizeFirstLetter = (text: string) => {
-	const [firstLetter, ...rest] = [...text];
-	const capitalizedText = `${firstLetter?.toUpperCase()}${rest.join("")}`;
-	return capitalizedText;
-};
+// const capitalizeFirstLetter = (text: string) => {
+// 	const [firstLetter, ...rest] = [...text];
+// 	const capitalizedText = `${firstLetter?.toUpperCase()}${rest.join("")}`;
+// 	return capitalizedText;
+// };
 
 export const generateMetadata = async ({
 	params,
@@ -15,7 +15,7 @@ export const generateMetadata = async ({
 	params: { category: string; page: string };
 }): Promise<Metadata> => {
 	return {
-		title: `${capitalizeFirstLetter(params.category)} - Shop`,
+		title: `${params.category} - Shop`,
 	};
 };
 
@@ -37,7 +37,7 @@ export default async function ProductsPaginationPage({
 
 	return (
 		<div>
-			<h1>Category: {capitalizeFirstLetter(params.category)}</h1>
+			<h1>Category: {params.category}</h1>
 			<ProductList products={products} />
 			<div className="mt-6 flex justify-center gap-2">
 				<Pagination

@@ -16,7 +16,7 @@ import * as types from './graphql';
 const documents = {
     "query CategoryGetList {\n  categories {\n    data {\n      id\n      attributes {\n        name\n      }\n    }\n  }\n}": types.CategoryGetListDocument,
     "query CollectionGetList {\n  collections {\n    data {\n      id\n      attributes {\n        name\n        slug\n        cover_image {\n          data {\n            attributes {\n              url\n              alternativeText\n            }\n          }\n        }\n      }\n    }\n  }\n}": types.CollectionGetListDocument,
-    "query CollectionGetProductListByCollectionId($collectionId: ID!) {\n  collection(id: $collectionId) {\n    data {\n      attributes {\n        products {\n          data {\n            ...ProductListItem\n          }\n        }\n      }\n    }\n  }\n}": types.CollectionGetProductListByCollectionIdDocument,
+    "query CollectionGetProductListByCollectionId($collectionId: ID!) {\n  collection(id: $collectionId) {\n    data {\n      attributes {\n        name\n        products {\n          data {\n            ...ProductListItem\n          }\n        }\n      }\n    }\n  }\n}": types.CollectionGetProductListByCollectionIdDocument,
     "query ProductGetById($id: ID!) {\n  product(id: $id) {\n    data {\n      id\n      attributes {\n        name\n        price\n        description\n        seo_description\n        category {\n          data {\n            attributes {\n              name\n            }\n          }\n        }\n        images {\n          data {\n            attributes {\n              url\n              alternativeText\n            }\n          }\n        }\n      }\n    }\n  }\n}": types.ProductGetByIdDocument,
     "fragment ProductListItem on ProductEntity {\n  id\n  attributes {\n    name\n    price\n    description\n    images {\n      data {\n        id\n        attributes {\n          url\n          alternativeText\n          width\n          height\n        }\n      }\n    }\n  }\n}": types.ProductListItemFragmentDoc,
     "query ProductsGetList {\n  products {\n    data {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetListDocument,
@@ -35,7 +35,7 @@ export function graphql(source: "query CollectionGetList {\n  collections {\n   
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query CollectionGetProductListByCollectionId($collectionId: ID!) {\n  collection(id: $collectionId) {\n    data {\n      attributes {\n        products {\n          data {\n            ...ProductListItem\n          }\n        }\n      }\n    }\n  }\n}"): typeof import('./graphql').CollectionGetProductListByCollectionIdDocument;
+export function graphql(source: "query CollectionGetProductListByCollectionId($collectionId: ID!) {\n  collection(id: $collectionId) {\n    data {\n      attributes {\n        name\n        products {\n          data {\n            ...ProductListItem\n          }\n        }\n      }\n    }\n  }\n}"): typeof import('./graphql').CollectionGetProductListByCollectionIdDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

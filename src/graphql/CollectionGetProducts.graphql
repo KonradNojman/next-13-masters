@@ -2,6 +2,7 @@ query CollectionGetProductListByCollectionId($collectionId: ID!) {
 	collection(id: $collectionId) {
 		data {
 			attributes {
+				name
 				products {
 					data {
 						...ProductListItem

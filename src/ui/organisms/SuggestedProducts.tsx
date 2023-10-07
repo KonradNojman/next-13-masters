@@ -7,5 +7,9 @@ export const SuggestedProducts = async () => {
 	await sleep(2000);
 	const products = await getProductList();
 
-	return <ProductList products={products.slice(-4)} />;
+	return (
+		<div data-testid="related-products">
+			<ProductList products={products.slice(-4)} />
+		</div>
+	);
 };
