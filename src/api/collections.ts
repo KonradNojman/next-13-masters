@@ -31,7 +31,7 @@ export type CollectionItemType = {
 };
 
 export const getCollectionList = async (): Promise<CollectionItemType[]> => {
-	const graphqlResponse = await executeGraphql(CollectionGetListDocument, {});
+	const graphqlResponse = await executeGraphql({ query: CollectionGetListDocument });
 	const mappedGqlResponse = graphqlResponse.collections?.data.map((collection) =>
 		mapEntity(collection),
 	);
@@ -50,8 +50,11 @@ export const getCollectionList = async (): Promise<CollectionItemType[]> => {
 };
 
 export const getProductListByCollectionId = async (collectionId: string) => {
-	const graphqlResponse = await executeGraphql(CollectionGetProductListByCollectionIdDocument, {
-		collectionId,
+	const graphqlResponse = await executeGraphql({
+		query: CollectionGetProductListByCollectionIdDocument,
+		variables: {
+			collectionId,
+		},
 	});
 	if (!graphqlResponse.collection?.data?.attributes) return { collectionName: "", products: [] };
 

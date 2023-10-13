@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getCollectionList } from "@/api/collections";
 import { getProductList } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";

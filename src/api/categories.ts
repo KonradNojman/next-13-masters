@@ -3,7 +3,7 @@ import { mapEntity } from "./utils";
 import { CategoryGetListDocument } from "@/gql/graphql";
 
 export const getCategoryList = async () => {
-	const graphqlResponse = await executeGraphql(CategoryGetListDocument, {});
+	const graphqlResponse = await executeGraphql({ query: CategoryGetListDocument });
 	const mappedGqlResponse = graphqlResponse.categories?.data.map((category) => mapEntity(category));
 
 	if (!mappedGqlResponse) return [];

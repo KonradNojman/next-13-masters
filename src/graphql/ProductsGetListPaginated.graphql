@@ -1,5 +1,5 @@
-query ProductsGetListPaginated($page: Int!, $pageSize: Int!) {
-	products(pagination: { page: $page, pageSize: $pageSize }) {
+query ProductsGetListPaginated($page: Int!, $pageSize: Int!, $sort: [String]) {
+	products(pagination: { page: $page, pageSize: $pageSize }, sort: $sort) {
 		data {
 			...ProductListItem
 		}

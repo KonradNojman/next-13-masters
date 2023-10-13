@@ -1,0 +1,35 @@
+mutation CartAddProduct(
+	$cartId: ID!
+	$productId: ID!
+	$publishedDate: DateTime!
+	$quantity: Int!
+	$total: Int!
+) {
+	createCartOrderItem(
+		data: {
+			quantity: $quantity
+			total: $total
+			cart_order: $cartId
+			product: $productId
+			publishedAt: $publishedDate
+		}
+	) {
+		data {
+			id
+			attributes {
+				quantity
+				total
+				product {
+					data {
+						id
+					}
+				}
+				cart_order {
+					data {
+						id
+					}
+				}
+			}
+		}
+	}
+}

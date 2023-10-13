@@ -1,0 +1,7 @@
+query CartGetById($cartId: ID!) {
+	cartOrder(id: $cartId) {
+		data {
+			...Cart
+		}
+	}
+}

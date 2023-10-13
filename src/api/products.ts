@@ -9,6 +9,7 @@ import {
 	ProductGetByIdDocument,
 	ProductsGetListByCategoryPaginatedDocument,
 	ProductSearchDocument,
+	type InputMaybe,
 } from "@/gql/graphql";
 import { type ProductType } from "@/ui/molecules/ProductItem";
 
@@ -16,6 +17,7 @@ export interface ProductResponseItem {
 	id: string;
 	title: string;
 	price: number;
+	avgRating: number;
 	description: string;
 	category: string;
 	rating: Rating;
@@ -37,6 +39,7 @@ export const productResponseItemToProductType = (product: {
 		id: product.id,
 		name: product.attributes.name,
 		price: product.attributes.price.toString(),
+		avgRating: product.attributes.avg_rating || 0,
 		description: product.attributes.description || "",
 		seoDescription: product.attributes.seo_description || "",
 		image: image
@@ -49,7 +52,7 @@ export const productResponseItemToProductType = (product: {
 };
 
 export const getProductList = async () => {
-	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
+	const graphqlResponse = await executeGraphql({ query: ProductsGetListDocument });
 	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
 		mapEntity<Product>(product as ProductEntity),
 	);
@@ -59,10 +62,18 @@ export const getProductList = async () => {
 	return mappedGqlResponse.map(productResponseItemToProductType);
 };
 
-export const getPaginatedProductList = async (take: number = 20, offset: number = 0) => {
-	const graphqlResponse = await executeGraphql(ProductsGetListPaginatedDocument, {
-		page: offset,
-		pageSize: take,
+export const getPaginatedProductList = async (
+	take: number = 20,
+	offset: number = 0,
+	sort?: InputMaybe<InputMaybe<string> | InputMaybe<string>[]> | undefined,
+) => {
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetListPaginatedDocument,
+		variables: {
+			page: offset,
+			pageSize: take,
+			sort: sort,
+		},
 	});
 	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
 		mapEntity<Product>(product as ProductEntity),
@@ -83,10 +94,13 @@ export const getPaginatedProductListByCategory = async (
 	take: number = 20,
 	offset: number = 0,
 ) => {
-	const graphqlResponse = await executeGraphql(ProductsGetListByCategoryPaginatedDocument, {
-		categoryName: category,
-		page: offset,
-		pageSize: take,
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetListByCategoryPaginatedDocument,
+		variables: {
+			categoryName: category,
+			page: offset,
+			pageSize: take,
+		},
 	});
 
 	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
@@ -104,7 +118,13 @@ export const getPaginatedProductListByCategory = async (
 };
 
 export const getProductById = async (id: string): Promise<ProductType | null> => {
-	const graphqlResponse = await executeGraphql(ProductGetByIdDocument, { id });
+	const graphqlResponse = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: { id },
+		next: {
+			revalidate: 1,
+		},
+	});
 	if (!graphqlResponse.product?.data) return null;
 
 	const mappedGqlResponse = mapEntity<Product>(graphqlResponse.product.data as ProductEntity);
@@ -113,7 +133,10 @@ export const getProductById = async (id: string): Promise<ProductType | null> =>
 };
 
 export const getProductSearch = async (query: string) => {
-	const graphqlResponse = await executeGraphql(ProductSearchDocument, { query });
+	const graphqlResponse = await executeGraphql({
+		query: ProductSearchDocument,
+		variables: { query },
+	});
 	const mappedGqlResponse = graphqlResponse.products?.data.map((product) =>
 		mapEntity<Product>(product as ProductEntity),
 	);

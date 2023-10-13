@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	pageExtensions: ["ts", "tsx", "mdx"],
+	experimental: {
+		typedRoutes: true,
+		mdxRs: true,
+		serverActions: true,
+	},
 	async redirects() {
 		return [
 			{
@@ -51,11 +57,6 @@ const nextConfig = {
 				pathname: "**",
 			},
 		],
-	},
-	pageExtensions: ["ts", "tsx", "mdx"],
-	experimental: {
-		typedRoutes: true,
-		mdxRs: true,
 	},
 };
 

@@ -1,0 +1,10 @@
+fragment Cart on CartOrderEntity {
+	id
+	attributes {
+		cart_order_items {
+			data {
+				...CartOrderItemFragment
+			}
+		}
+	}
+}

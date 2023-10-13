@@ -1,10 +1,12 @@
 import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/atoms/Card";
+import { formatMoney } from "@/lib/utils";
 
 export type ProductType = {
 	id: string;
 	name: string;
 	price: string;
+	avgRating: number;
 	description: string;
 	seoDescription?: string;
 	category?: string;
@@ -19,7 +21,7 @@ export type ProductItemProps = {
 };
 
 export const ProductItem = ({ product }: ProductItemProps) => {
-	const { name, price, image } = product;
+	const { name, price, avgRating, image } = product;
 	return (
 		<Card>
 			<CardHeader className="flex h-52 w-52 items-center justify-center overflow-hidden">
@@ -27,7 +29,12 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 			</CardHeader>
 			<CardContent>
 				<CardTitle>{name}</CardTitle>
-				<CardDescription>{price}</CardDescription>
+				<CardDescription>
+					Price: <span data-testid="product-price">{formatMoney(Number(price))}</span>
+				</CardDescription>
+				<CardDescription>
+					Rating: <span data-testid="product-rating">{avgRating}</span>
+				</CardDescription>
 			</CardContent>
 		</Card>
 	);

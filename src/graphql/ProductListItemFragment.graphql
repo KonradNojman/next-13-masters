@@ -3,6 +3,7 @@ fragment ProductListItem on ProductEntity {
 	attributes {
 		name
 		price
+		avg_rating
 		description
 		images {
 			data {

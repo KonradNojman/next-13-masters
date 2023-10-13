@@ -13,3 +13,7 @@ export const containsSections = (a: string[], b: string[]): boolean => {
 	}
 	return true;
 };
+
+export const formatMoney = (price: number) => {
+	return Intl.NumberFormat("pl-PL", { style: "currency", currency: "PLN" }).format(price / 100);
+};

@@ -1,0 +1,7 @@
+mutation CartCreate($publishedDate: DateTime!) {
+	createCartOrder(data: { publishedAt: $publishedDate }) {
+		data {
+			...Cart
+		}
+	}
+}
